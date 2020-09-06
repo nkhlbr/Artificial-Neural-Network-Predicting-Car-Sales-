@@ -1,4 +1,6 @@
-
+'''
+Make predictions of the Car Purchase value depending on the factors such as Gender, Age, Annual Salary, Credit Card Debt, Net Worth
+'''
 
 import pandas as pd 
 import numpy as np
@@ -92,6 +94,63 @@ model.add(Dense(25, input_dim = 5, activation = 'relu' )) #how many neurons in t
 model.add(Dense(25, activation = 'relu')) #no inputs because the inputs from previous layer are added to this layer
 model.add(Dense(1, activation = 'linear')) #for output
 
+model.summary()
+
+#training weights iwth biases that is why 150 
+
+#press tab to auto complete
+model = Sequential()
+model.add(Dense(40, input_dim = 5, activation = 'relu' )) #how many neurons in the hidden layer input_dim  = imput columns, 25 neurons 
+model.add(Dense(40, activation = 'relu')) #no inputs because the inputs from previous layer are added to this layer
+model.add(Dense(1, activation = 'linear')) #for output
+
+
+#reduce the no.of neurons and observe
+#model.add(Dense(5, input_dim = 5, activation = 'relu' )) #how many neurons in the hidden layer input_dim  = imput columns, 25 neurons 
+#model.add(Dense(5, activation = 'relu')) #no inputs because the inputs from previous layer are added to this layer
+#model.add(Dense(1, activation = 'linear')) #for output
+
+# By reducing the no.of neurons the power has been reduce a higher loss is observed
+
+model.summary()
+
+#increse the number of neurons no. of params increases
+
+
+# Train the model or fit the model to training data
+
+model.compile(optimizer = 'adam', loss = 'mean_squared_error')
+#epochs_hist = model.fit(X_train, y_train, epochs = 20, batch_size = 25, verbose = 1, validation_split = 0.2)
+#mean square error going down network is learning
+
+#play with epochs
+
+#epochs_hist = model.fit(X_train, y_train, epochs = 20, batch_size = 25, verbose = 1, validation_split = 0.2)
+
+#play with batch size
+epochs_hist = model.fit(X_train, y_train, epochs = 20, batch_size = 50, verbose = 1, validation_split = 0.2)
 
 
 
+#model evaluation 
+
+epochs_hist.history.keys()
+
+plt.plot(epochs_hist.history['loss'])
+plt.plot(epochs_hist.history['val_loss'])
+plt.title('Model Loss Progress During Training')
+plt.ylabel('Training and Validation Loss')
+plt.xlabel('Epoch number')
+plt.legend(['Training Loss', 'Validation Loss'])
+
+#Question what happens when there are variations in no.of epochs, batch size, validation split and no.of neurons
+
+
+
+#Now test 
+#Gender, Age, Annual Salary, Credit Card Debt, Net Worth
+
+X_test = np.array([[1,50,50000, 10000, 600000]])
+y_predict = model.predict(X_test)
+
+print('Expected Purchase Amount', y_predict)
